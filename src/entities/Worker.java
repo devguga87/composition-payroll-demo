@@ -10,11 +10,13 @@ public class Worker {
     private WorkerLevel level;
     private Double baseSalary;
     private List<HourContract> contracts = new ArrayList<>();
+    private Departament departament;
 
-    public Worker(String name, WorkerLevel level, Double baseSalary){
+    public Worker(String name, WorkerLevel level, Double baseSalary, Departament departament){
         this.name = name;
         this.level = level;
         this.baseSalary = baseSalary;
+        this.departament = departament;
     }
 
     public String getName(){
@@ -50,7 +52,20 @@ public class Worker {
     }
 
     public Double income(Integer year, Integer month){
-        //TODO fazer logica
-        return 0.0;
+        double val = 0.0;
+        for(HourContract contrato : contracts){
+            if(year == contrato.getDate().getYear() && month == contrato.getDate().getMonthValue()){
+                val += contrato.getTotalValue();
+            }
+        }
+        return val + baseSalary;
+    }
+
+    @Override
+    public String toString() {
+        return """
+               Name : %s
+               Departament: %s
+               """.formatted(name,departament);
     }
 }
